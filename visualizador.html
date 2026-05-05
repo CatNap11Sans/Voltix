@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Voltix – Galeria</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=Barlow:wght@300;400&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green: #9cff00;
+      --dark: #0b0b0b;
+      --card-bg: #111;
+      --border: rgba(156,255,0,0.22);
+    }
+
+    body {
+      font-family: 'Barlow', sans-serif;
+      background: var(--dark);
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(156,255,0,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(156,255,0,0.025) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    header {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 40px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, #000 0%, transparent 100%);
+    }
+
+    .logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: 2rem;
+      color: var(--green);
+      letter-spacing: 4px;
+      text-decoration: none;
+    }
+
+    .back-btn {
+      color: var(--green);
+      text-decoration: none;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border: 1px solid var(--border);
+      padding: 8px 18px;
+      border-radius: 4px;
+      transition: background 0.2s, color 0.2s;
+    }
+    .back-btn:hover { background: var(--green); color: #000; }
+
+    .page-title {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 56px 20px 36px;
+    }
+    .page-title h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: clamp(2.4rem, 6vw, 4.8rem);
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+    .page-title h2 span { color: var(--green); }
+    .page-title p {
+      margin-top: 12px;
+      color: #555;
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* ── GALLERY ── */
+    .gallery {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 32px 80px;
+    }
+
+    .gallery-item:first-child { grid-column: 1 / -1; }
+
+    .gallery-item {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--card-bg);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+    }
+    .gallery-item:hover {
+      transform: translateY(-4px);
+      border-color: var(--green);
+      box-shadow: 0 0 32px rgba(156,255,0,0.12);
+    }
+
+    .img-wrap {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      display: block;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      transition: transform 0.4s;
+    }
+    .gallery-item:first-child img { aspect-ratio: 21/9; }
+    .gallery-item:hover img { transform: scale(1.04); }
+
+    .img-wrap::after {
+      content: '⤢ ampliar';
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(0,0,0,0.65);
+      color: var(--green);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      opacity: 0;
+      transition: opacity 0.2s;
+      pointer-events: none;
+    }
+    .gallery-item:hover .img-wrap::after { opacity: 1; }
+
+    /* ── CARD FOOTER ── */
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 13px 18px;
+      border-top: 1px solid var(--border);
+      background: #0d0d0d;
+    }
+
+    .card-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #bbb;
+    }
+
+    .dl-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--green);
+      color: #000;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 7px 16px;
+      border-radius: 4px;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+    .dl-btn:hover { opacity: 0.85; transform: scale(1.04); }
+
+    /* ── LIGHTBOX ── */
+    #lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.96);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+    #lightbox.active { display: flex; }
+
+    #lbImg {
+      max-width: 88vw;
+      max-height: 76vh;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      object-fit: contain;
+      cursor: zoom-in;
+      transition: transform 0.3s;
+      user-select: none;
+    }
+    #lbImg.zoomed { transform: scale(1.6); cursor: zoom-out; }
+
+    .lb-nav {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: var(--green);
+      color: #000;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.2s;
+      z-index: 1001;
+    }
+    .lb-nav:hover { transform: translateY(-50%) scale(1.1); }
+    #lbPrev { left: 20px; }
+    #lbNext { right: 20px; }
+
+    .lb-close {
+      position: fixed;
+      top: 18px; right: 18px;
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: transparent;
+      border: 1px solid #444;
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.2s, background 0.2s;
+      z-index: 1001;
+    }
+    .lb-close:hover { border-color: var(--green); background: rgba(156,255,0,0.1); }
+
+    .lb-actions {
+      margin-top: 18px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .lb-counter {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.9rem;
+      letter-spacing: 3px;
+      color: #555;
+      text-transform: uppercase;
+    }
+    .lb-counter em { color: var(--green); font-style: normal; }
+
+    .lb-dl {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--green);
+      color: #000;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 8px 18px;
+      border-radius: 4px;
+      transition: opacity 0.2s;
+    }
+    .lb-dl:hover { opacity: 0.85; }
+
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 22px 20px;
+      border-top: 1px solid var(--border);
+      color: #333;
+      font-size: 0.82rem;
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 600px) {
+      header { padding: 14px 16px; }
+      .gallery { padding: 0 14px 50px; gap: 16px; }
+      .gallery-item:first-child { grid-column: auto; }
+      .lb-nav { width: 38px; height: 38px; font-size: 16px; }
+      #lbPrev { left: 6px; }
+      #lbNext { right: 6px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="index.html">VOLTIX</a>
+  <a class="back-btn" href="index.html">← Voltar</a>
+</header>
+
+<div class="page-title">
+  <h2>Galeria <span>Power10</span></h2>
+  <p>Clique para ampliar · Baixe a imagem que quiser</p>
+</div>
+
+<div class="gallery">
+
+  <div class="gallery-item">
+    <div class="img-wrap" onclick="abrirLightbox(0)">
+      <img src="Main.png" alt="Voltix Main">
+    </div>
+    <div class="card-footer">
+      <span class="card-label">Principal</span>
+      <a class="dl-btn" href="Main.png" download="Voltix-Main.png">⬇ Baixar</a>
+    </div>
+  </div>
+
+  <div class="gallery-item">
+    <div class="img-wrap" onclick="abrirLightbox(1)">
+      <img src="Vitrine.png" alt="Voltix Vitrine">
+    </div>
+    <div class="card-footer">
+      <span class="card-label">Vitrine</span>
+      <a class="dl-btn" href="Vitrine.png" download="Voltix-Vitrine.png">⬇ Baixar</a>
+    </div>
+  </div>
+
+  <div class="gallery-item">
+    <div class="img-wrap" onclick="abrirLightbox(2)">
+      <img src="Visualizar.png" alt="Voltix Visualizar">
+    </div>
+    <div class="card-footer">
+      <span class="card-label">Visualizar</span>
+      <a class="dl-btn" href="Visualizar.png" download="Voltix-Visualizar.png">⬇ Baixar</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <button class="lb-close" onclick="fecharLightbox()">✕</button>
+  <button class="lb-nav" id="lbPrev" onclick="mudar(-1)">◀</button>
+  <img id="lbImg" src="" alt="" onclick="toggleZoom()">
+  <button class="lb-nav" id="lbNext" onclick="mudar(1)">▶</button>
+  <div class="lb-actions">
+    <div class="lb-counter"><em id="lbAtual">1</em> / <span id="lbTotal">3</span></div>
+    <a id="lbDl" class="lb-dl" href="" download="">⬇ Baixar imagem</a>
+  </div>
+</div>
+
+<footer>
+  Criado por Sawi Fox Studios &nbsp;·&nbsp; © 2026 Voltix – Todos os direitos reservados
+</footer>
+
+<script>
+  const imagens = [
+    { src: "Main.png",       label: "Principal",  filename: "Voltix-Main.png"       },
+    { src: "Vitrine.png",    label: "Vitrine",    filename: "Voltix-Vitrine.png"    },
+    { src: "Visualizar.png", label: "Visualizar", filename: "Voltix-Visualizar.png" }
+  ];
+
+  let atual = 0, zoomed = false;
+
+  const lb      = document.getElementById("lightbox");
+  const lbImg   = document.getElementById("lbImg");
+  const lbAtual = document.getElementById("lbAtual");
+  const lbDl    = document.getElementById("lbDl");
+
+  document.getElementById("lbTotal").textContent = imagens.length;
+
+  function abrirLightbox(i) {
+    atual = i; atualizar();
+    lb.classList.add("active");
+    document.body.style.overflow = "hidden";
+  }
+
+  function fecharLightbox() {
+    lb.classList.remove("active");
+    document.body.style.overflow = "";
+    resetZoom();
+  }
+
+  function mudar(dir) {
+    resetZoom();
+    atual = (atual + dir + imagens.length) % imagens.length;
+    atualizar();
+  }
+
+  function atualizar() {
+    const { src, label, filename } = imagens[atual];
+    lbImg.src = src; lbImg.alt = label;
+    lbAtual.textContent = atual + 1;
+    lbDl.href = src; lbDl.download = filename;
+  }
+
+  function toggleZoom() {
+    zoomed = !zoomed;
+    lbImg.classList.toggle("zoomed", zoomed);
+  }
+
+  function resetZoom() { zoomed = false; lbImg.classList.remove("zoomed"); }
+
+  document.addEventListener("keydown", e => {
+    if (!lb.classList.contains("active")) return;
+    if (e.key === "ArrowLeft")  mudar(-1);
+    if (e.key === "ArrowRight") mudar(1);
+    if (e.key === "Escape")     fecharLightbox();
+  });
+
+  lb.addEventListener("click", e => { if (e.target === lb) fecharLightbox(); });
+</script>
+
+</body>
+</html>

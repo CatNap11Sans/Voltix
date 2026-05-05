@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Voltix Power10</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=Barlow:wght@300;400&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green: #9cff00;
+      --dark: #0b0b0b;
+      --border: rgba(156,255,0,0.22);
+    }
+
+    body {
+      font-family: 'Barlow', sans-serif;
+      background: var(--dark);
+      color: #fff;
+      margin: 0;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(156,255,0,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(156,255,0,0.025) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 60px 20px 50px;
+      background: linear-gradient(180deg, #000, #111);
+      border-bottom: 1px solid var(--border);
+    }
+
+    h1 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      color: var(--green);
+      font-size: clamp(3rem, 8vw, 6rem);
+      letter-spacing: 10px;
+      margin: 0;
+    }
+
+    .slogan {
+      font-size: 1.15em;
+      margin-top: 10px;
+      color: #888;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-family: 'Barlow Condensed', sans-serif;
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 44px 24px;
+      max-width: 860px;
+      margin: 0 auto;
+      border-bottom: 1px solid rgba(156,255,0,0.07);
+    }
+
+    section:last-of-type { border-bottom: none; }
+
+    .sec-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #fff;
+      margin-bottom: 20px;
+      line-height: 1.1;
+    }
+
+    .sec-title::after {
+      content: '';
+      display: block;
+      width: 48px;
+      height: 3px;
+      background: var(--green);
+      margin-top: 10px;
+      border-radius: 2px;
+    }
+
+    .body-text {
+      color: #aaa;
+      line-height: 1.85;
+      font-size: 1.02rem;
+      margin-bottom: 16px;
+    }
+
+    .body-text:last-child { margin-bottom: 0; }
+
+    .highlight { color: var(--green); font-weight: bold; }
+
+    /* ── BOX ── */
+    .box {
+      border: 1px solid var(--border);
+      padding: 24px 28px;
+      border-radius: 10px;
+      background: rgba(156,255,0,0.03);
+    }
+
+    .box p { color: #ccc; line-height: 1.7; }
+
+    /* ── LIST ITEMS ── */
+    .list-items {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .list-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 20px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: rgba(156,255,0,0.025);
+      color: #ccc;
+      font-size: 1rem;
+      line-height: 1.5;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .list-item:hover {
+      border-color: var(--green);
+      background: rgba(156,255,0,0.06);
+      color: #fff;
+    }
+
+    /* ── BTN ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--green);
+      border: none;
+      padding: 14px 30px;
+      cursor: pointer;
+      border-radius: 6px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #000;
+      text-decoration: none;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+    .btn:hover { opacity: 0.88; transform: scale(1.03); }
+
+    /* ── GALLERY CTA ── */
+    .gallery-cta {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+      padding: 20px 24px 80px;
+    }
+
+    .gallery-card {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: #0e0e0e;
+      padding: 40px 48px;
+      text-align: center;
+      max-width: 500px;
+      width: 100%;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .gallery-card:hover {
+      border-color: var(--green);
+      box-shadow: 0 0 50px rgba(156,255,0,0.1);
+    }
+
+    .gallery-card .icon { font-size: 3rem; display: block; margin-bottom: 16px; }
+
+    .gallery-card h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: 1.9rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .gallery-card p {
+      color: #666;
+      font-size: 0.92rem;
+      margin-bottom: 26px;
+      line-height: 1.6;
+    }
+
+    /* ── MODAL ── */
+    #modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.93);
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 500;
+    }
+
+    #imgZoom {
+      max-width: 80%;
+      max-height: 80%;
+      cursor: zoom-in;
+      transition: 0.3s;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+
+    .nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 22px;
+      background: var(--green);
+      color: #000;
+      width: 48px; height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border-radius: 50%;
+      border: none;
+    }
+
+    #prev { left: 20px; }
+    #next { right: 20px; }
+
+    .modal-actions {
+      margin-top: 20px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 24px 20px;
+      background: #000;
+      border-top: 1px solid var(--border);
+      font-size: 0.83em;
+      color: #3a3a3a;
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 600px) {
+      section { padding: 36px 18px; }
+      .gallery-card { padding: 30px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>VOLTIX</h1>
+  <div class="slogan">Energia que te acompanha. Sempre.</div>
+</header>
+
+<!-- ── SEÇÃO 1 ── -->
+<section>
+  <h2 class="sec-title">Chega de depender de tomadas</h2>
+  <p class="body-text">Você já passou por aquela situação frustrante onde seu celular simplesmente morre no pior momento possível? Seja no meio de uma viagem, durante uma trilha, em um evento importante ou até mesmo em um dia corrido, ficar sem bateria significa perder conexão com o mundo.</p>
+  <p class="body-text">O problema não é o seu celular. O problema é depender de algo que nem sempre está disponível: <span class="highlight">tomadas</span>.</p>
+  <p class="body-text">E é exatamente contra isso que o <span class="highlight">Voltix Power10</span> foi criado.</p>
+</section>
+
+<!-- ── SEÇÃO 2 ── -->
+<section>
+  <h2 class="sec-title">O que é o Voltix Power10?</h2>
+  <p class="body-text">O Voltix Power10 é um carregador portátil de alta performance projetado para oferecer liberdade total. Com tecnologia avançada e design compacto, ele permite que você leve energia para onde quiser, sem depender de infraestrutura externa.</p>
+
+  <div class="box" style="margin: 24px 0;">
+    <p>⚡ Carrega seu celular até <strong style="color:#fff;">10 vezes</strong></p>
+    <p style="margin-top:12px;">⚡ Recarrega completamente em <strong style="color:#fff;">menos de 1 hora</strong></p>
+    <p style="margin-top:12px;">⚡ Design <strong style="color:#fff;">compacto, resistente</strong> e fácil de transportar</p>
+  </div>
+
+  <p class="body-text">Isso significa mais tempo conectado, mais segurança e menos preocupação.</p>
+</section>
+
+<!-- ── SEÇÃO 3 ── -->
+<section>
+  <h2 class="sec-title">Liberdade real</h2>
+  <p class="body-text">Imagine não precisar mais procurar desesperadamente por uma tomada. Imagine viajar, explorar e viver experiências sem aquela preocupação constante com a bateria.</p>
+  <p class="body-text" style="margin-bottom:20px;">Com o Voltix Power10, você pode:</p>
+
+  <div class="list-items">
+    <div class="list-item">✈️&nbsp; Viajar sem medo de ficar desconectado</div>
+    <div class="list-item">🏔️&nbsp; Explorar lugares remotos</div>
+    <div class="list-item">💼&nbsp; Trabalhar de qualquer lugar</div>
+    <div class="list-item">🚨&nbsp; Ter energia em situações de emergência</div>
+  </div>
+
+  <p class="body-text" style="margin-top:28px;">Porque tomadas não te acompanham… mas o <span class="highlight">Voltix acompanha</span>.</p>
+</section>
+
+<!-- ── SEÇÃO 4 ── -->
+<section>
+  <h2 class="sec-title">Segurança e tecnologia</h2>
+  <p class="body-text">O Voltix Power10 não é apenas potente, mas também seguro. Ele conta com sistemas de proteção contra sobrecarga, superaquecimento e curto-circuito, garantindo tranquilidade durante o uso.</p>
+  <p class="body-text">Além disso, seu sistema inteligente de energia otimiza o carregamento, proporcionando eficiência máxima em cada uso.</p>
+</section>
+
+<!-- ── SEÇÃO 5 ── -->
+<section>
+  <h2 class="sec-title">Conclusão</h2>
+  <p class="body-text">O mundo está em movimento, e você também deveria estar. Não deixe algo tão simples quanto bateria limitar suas possibilidades.</p>
+  <p class="body-text"><span class="highlight">Voltix Power10</span> — menos tomadas, mais liberdade.</p>
+</section>
+
+<!-- ── GALERIA CTA ── -->
+<div class="gallery-cta">
+  <div class="gallery-card">
+    <span class="icon">🖼️</span>
+    <h3>Galeria de Imagens</h3>
+    <p>Veja todas as fotos do Voltix Power10 em alta resolução e faça o download das que quiser.</p>
+    <a class="btn" href="visualizador.html">Ver Galeria →</a>
+  </div>
+</div>
+
+<!-- MODAL RÁPIDO -->
+<div id="modal">
+  <button id="prev" class="nav" onclick="mudarImagem(-1)">◀</button>
+  <img id="imgZoom" src="Main.png" alt="Voltix">
+  <button id="next" class="nav" onclick="mudarImagem(1)">▶</button>
+  <div class="modal-actions">
+    <button class="btn" onclick="fecharImagem()">Fechar</button>
+    <a id="modalDl" class="btn" href="Main.png" download="Voltix-Main.png">⬇ Baixar</a>
+  </div>
+</div>
+
+<footer>
+  Criado por Sawi Fox Studios<br>
+  © 2026 Voltix – Todos os direitos reservados
+</footer>
+
+<script>
+  const imagens = [
+    { src: "Main.png",       filename: "Voltix-Main.png"       },
+    { src: "Vitrine.png",    filename: "Voltix-Vitrine.png"    },
+    { src: "Visualizar.png", filename: "Voltix-Visualizar.png" }
+  ];
+
+  let index = 0, zoom = false;
+  const modalDl = document.getElementById("modalDl");
+
+  function abrirImagem() {
+    index = 0;
+    document.getElementById("modal").style.display = "flex";
+    atualizarImagem();
+  }
+
+  function fecharImagem() {
+    document.getElementById("modal").style.display = "none";
+  }
+
+  function mudarImagem(dir) {
+    index = (index + dir + imagens.length) % imagens.length;
+    atualizarImagem();
+  }
+
+  function atualizarImagem() {
+    const img = document.getElementById("imgZoom");
+    img.src = imagens[index].src;
+    img.style.transform = "scale(1)";
+    img.style.cursor = "zoom-in";
+    zoom = false;
+    modalDl.href     = imagens[index].src;
+    modalDl.download = imagens[index].filename;
+  }
+
+  document.getElementById("imgZoom").addEventListener("click", function() {
+    zoom = !zoom;
+    this.style.transform = zoom ? "scale(1.5)" : "scale(1)";
+    this.style.cursor    = zoom ? "zoom-out"   : "zoom-in";
+  });
+
+  document.addEventListener("keydown", e => {
+    const modal = document.getElementById("modal");
+    if (modal.style.display !== "flex") return;
+    if (e.key === "ArrowLeft")  mudarImagem(-1);
+    if (e.key === "ArrowRight") mudarImagem(1);
+    if (e.key === "Escape")     fecharImagem();
+  });
+</script>
+
+</body>
+</html>
